@@ -11,6 +11,7 @@ import (
 
 var (
 	ErrPasswordTokenExpired   = errors.New("password token is expired")
+	ErrLicenseAlreadyExists   = errors.New("license already exists")
 	ErrSubscriptionRequired   = errors.New("subscription required")
 	ErrTemporarilyUnavailable = errors.New("item is temporarily unavailable")
 )
@@ -72,8 +73,14 @@ func (t *appstore) purchaseWithParams(acc Account, app App, guid string, pricing
 		return ErrSubscriptionRequired
 	}
 
-	if res.Data.FailureType == FailureTypePasswordTokenExpired || res.Data.CustomerMessage == CustomerMessagePasswordChanged {
+	if res.Data.FailureType == FailureTypePasswordTokenExpired ||
+		res.Data.FailureType == FailureTypeDeviceVerificationFailed ||
+		res.Data.CustomerMessage == CustomerMessagePasswordChanged {
 		return ErrPasswordTokenExpired
+	}
+
+	if res.Data.FailureType == FailureTypeLicenseAlreadyExists {
+		return ErrLicenseAlreadyExists
 	}
 
 	if res.Data.FailureType != "" && res.Data.CustomerMessage != "" {
@@ -85,7 +92,7 @@ func (t *appstore) purchaseWithParams(acc Account, app App, guid string, pricing
 	}
 
 	if res.StatusCode == gohttp.StatusInternalServerError {
-		return fmt.Errorf("license already exists")
+		return ErrLicenseAlreadyExists
 	}
 
 	if res.Data.JingleDocType != "purchaseSuccess" || res.Data.Status != 0 {

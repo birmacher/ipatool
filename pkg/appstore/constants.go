@@ -1,10 +1,12 @@
 package appstore
 
 const (
-	FailureTypeInvalidCredentials     = "-5000"
-	FailureTypePasswordTokenExpired   = "2034"
-	FailureTypeLicenseNotFound        = "9610"
-	FailureTypeTemporarilyUnavailable = "2059"
+	FailureTypeInvalidCredentials      = "-5000"
+	FailureTypePasswordTokenExpired    = "2034"
+	FailureTypeLicenseNotFound         = "9610"
+	FailureTypeTemporarilyUnavailable  = "2059"
+	FailureTypeLicenseAlreadyExists    = "5002"
+	FailureTypeDeviceVerificationFailed = "1008"
 
 	CustomerMessageBadLogin             = "MZFinance.BadLogin.Configurator_message"
 	CustomerMessageAccountDisabled      = "Your account is disabled."
