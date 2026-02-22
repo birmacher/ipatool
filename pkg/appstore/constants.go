@@ -22,6 +22,7 @@ const (
 
 	PrivateAppStoreAPIDomain           = "buy." + iTunesAPIDomain
 	PrivateAppStoreAPIPathAuthenticate = "/WebObjects/MZFinance.woa/wa/authenticate"
+	DefaultAuthEndpoint                = "https://" + PrivateAppStoreAPIDomain + PrivateAppStoreAPIPathAuthenticate
 	PrivateAppStoreAPIPathPurchase     = "/WebObjects/MZFinance.woa/wa/buyProduct"
 	PrivateAppStoreAPIPathDownload = "/WebObjects/MZFinance.woa/wa/volumeStoreDownloadProduct"
 
