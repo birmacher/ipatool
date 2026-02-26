@@ -31,7 +31,11 @@ func New(args Args) Machine {
 	}
 }
 
-func (*machine) MacAddress() (string, error) {
+func (m *machine) MacAddress() (string, error) {
+	if guid := m.os.Getenv("IPATOOL_GUID"); guid != "" {
+		return guid, nil
+	}
+
 	interfaces, err := net.Interfaces()
 	if err != nil {
 		return "", fmt.Errorf("failed to get network interfaces: %w", err)

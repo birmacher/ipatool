@@ -43,7 +43,27 @@ var _ = Describe("Machine", func() {
 		})
 	})
 
-	When("machine has network interfaces", func() {
+	When("IPATOOL_GUID environment variable is set", func() {
+		BeforeEach(func() {
+			mockOS.EXPECT().
+				Getenv("IPATOOL_GUID").
+				Return("AABBCCDDEEFF")
+		})
+
+		It("returns the GUID from the environment variable", func() {
+			res, err := machine.MacAddress()
+			Expect(err).ToNot(HaveOccurred())
+			Expect(res).To(Equal("AABBCCDDEEFF"))
+		})
+	})
+
+	When("IPATOOL_GUID environment variable is empty", func() {
+		BeforeEach(func() {
+			mockOS.EXPECT().
+				Getenv("IPATOOL_GUID").
+				Return("")
+		})
+
 		It("returns MAC address of the first interface", func() {
 			res, err := machine.MacAddress()
 			Expect(err).ToNot(HaveOccurred())
